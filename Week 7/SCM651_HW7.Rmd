@@ -1,0 +1,124 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+install.packages("Rcmdr")
+library(Rcmdr)
+
+```
+
+```{r}
+#import csv files into data frames
+
+  oj_fpath <- "/Users/sathishrajendiran/Documents/week_7_data_set.csv"
+ 
+  # function readFiles
+  readFiles <- function(fpath)
+    {
+    dftemp <- data.frame(read.csv(fpath),stringsAsFactors=FALSE)
+    return(dftemp)
+    }
+  
+  oj <- readFiles(oj_fpath) 
+  
+  # function printDataInfo
+  printDataInfo <- function(myData)
+    {
+      strinfo <- str(myData)
+      cat("str:",strinfo,"\n")
+      
+      colnamesinfo <- colnames(myData)
+      cat("colnames:",colnamesinfo,"\n")
+      
+      diminfo <- dim(myData)
+      cat("dim:",diminfo,"\n")
+      
+      nrowinfo <- nrow(myData)
+      cat("nrow:",nrowinfo,"\n")
+      
+      nrowsinfo <- myData[1:3,]
+      return(nrowsinfo)
+     }
+  
+# printDataInfo
+  printDataInfo(oj)
+```
+
+```{r}
+hist(oj$price, main="Histogram for Price", 
+     xlab="Price",
+     ylab ="Percentage",
+     border="yellow", 
+     col="steelblue",
+     # xlim=c(100,700),
+     freq=FALSE,
+     las=1, 
+     breaks=5)
+```
+
+```{r}
+
+boxplot(oj$price, main="Boxplot for Price", 
+     ylab="Price",
+     border="orange", 
+     col="steelblue",
+     freq=FALSE,
+     las=1, 
+     breaks=5,
+     horizontal = TRUE)
+```
+
+```{r}
+boxplot(price~brand,
+      data = oj, main="Boxplot for Price by Brands", 
+     ylab="Price",
+     border="orange", 
+     col="steelblue",
+     freq=FALSE,
+     las=1, 
+     breaks=5,
+     horizontal = TRUE)
+```
+
+```{r}
+colnames(oj)
+
+scatterplot(logmove ~ price, data = oj,col="steelblue", grid = FALSE, frame = TRUE,ellipse = TRUE) 
+```
+
+```{r}
+install.packages("rgl")
+install.packages("mgcv")
+library(rgl)
+library(mgcv)
+library(nlme)
+
+colnames(oj)
+
+install.packages("ggplot2")
+install.packages("ggeasy")
+install.packages("reshape2")
+
+library(ggplot2)
+library(ggeasy)
+library(reshape2)
+dfscatter <-data.frame(oj$logmove,oj$AGE60,oj$price,oj$brand)
+
+dfscatter
+
+theme <-theme(plot.title = element_text(hjust = 0.5),axis.title = element_text())
+
+ gghist <- ggplot(dfscatter,aes(x= oj.logmove,y=oj.price)) +geom_smooth(method="auto", se=TRUE, fullrange=FALSE, level=0.95)
+ 
+ gghist+geom_point(aes(value =oj.AGE60, color=oj.brand),shape=10) 
+ +ggtitle("Airquality value changes over time - scatter plot") +theme+ xlab("Wind ----->") +ylab("Temp ----->")
+
+
+```
+

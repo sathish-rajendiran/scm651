@@ -1,0 +1,254 @@
+<!-- R Commander Markdown Template -->
+
+Replace with Main Title
+=======================
+
+### Your Name
+
+### `r as.character(Sys.Date())`
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+
+```{r echo=FALSE}
+# include this code chunk as-is to enable 3D graphs
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+
+```{r}
+oj <- read.table("/Users/sathishrajendiran/Downloads/oj.csv", header=TRUE, 
+  sep=",", na.strings="NA", dec=".", strip.white=TRUE)
+```
+
+```{r}
+names(oj)
+```
+
+
+```{r}
+with(oj, Hist(price, scale="frequency", breaks="Sturges", col="darkgray"))
+```
+
+```{r}
+with(oj, Hist(price, scale="percent", breaks="Sturges", col="darkgray"))
+```
+
+```{r}
+with(oj, Hist(price, scale="density", breaks=5, col="darkgray"))
+```
+
+```{r}
+with(oj, Hist(price, scale="density", breaks=5, col="darkgray"))
+```
+
+```{r}
+Boxplot(price~brand, data=oj, id=list(method="y"))
+```
+
+```{r}
+scatterplot(logmove~price, regLine=FALSE, smooth=FALSE, boxplots=FALSE, data=oj)
+```
+
+```{r}
+scatterplot(logmove~price, regLine=FALSE, smooth=list(span=0.5, spread=FALSE), 
+  boxplots=FALSE, ellipse=list(levels=c(.5, .9)), data=oj)
+```
+
+```{r}
+scatterplot(logmove~price | brand, regLine=FALSE, smooth=list(span=0.5, 
+  spread=FALSE), boxplots=FALSE, ellipse=list(levels=c(.5, .9)), by.groups=TRUE, 
+  data=oj)
+```
+
+```{r}
+scatterplotMatrix(~INCOME+logmove+price, regLine=TRUE, smooth=list(span=0.5, 
+  spread=TRUE), diagonal=list(method="density"), data=oj)
+```
+
+```{r}
+with(oj, plotMeans(price, brand, error.bars="sd", connect=TRUE))
+```
+
+```{r}
+library(lattice, pos=17)
+```
+
+
+```{r}
+xyplot(logmove ~ price | brand, groups=brand, type="p", pch=16, 
+  auto.key=list(border=TRUE), par.settings=simpleTheme(pch=16), 
+  scales=list(x=list(relation='same'), y=list(relation='same')), data=oj)
+```
+
+```{r}
+library(rgl, pos=18)
+```
+
+
+```{r}
+library(nlme, pos=19)
+```
+
+
+```{r}
+library(mgcv, pos=19)
+```
+
+
+```{r, webgl=TRUE}
+
+```{r}
+scatter3d(logmove~AGE60+price, data=oj, fit="linear", residuals=TRUE, bg="white",
+   axis.scales=TRUE, grid=TRUE, ellipsoid=FALSE)
+```
+
+```{r, webgl=TRUE}
+scatter3d(logmove~AGE60+price|brand, data=oj, fit="linear", residuals=TRUE, 
+  parallel=FALSE, bg="white", axis.scales=TRUE, grid=TRUE, ellipsoid=FALSE)
+```
+
+```{r}
+library(abind, pos=21)
+```
+
+
+```{r}
+library(e1071, pos=22)
+```
+
+
+```{r}
+numSummary(oj[,c("logmove", "price"), drop=FALSE], statistics=c("mean", "sd", 
+  "IQR", "quantiles"), quantiles=c(0,.25,.5,.75,1))
+```
+
+```{r}
+numSummary(oj[,c("logmove", "price"), drop=FALSE], groups=oj$brand, 
+  statistics=c("mean", "sd", "IQR", "quantiles"), quantiles=c(0,.25,.5,.75,1))
+```
+
+```{r}
+cor(oj[,c("INCOME","logmove","price")], use="complete")
+```
+
+```{r}
+with(oj, cor.test(logmove, price, alternative="two.sided", method="pearson"))
+```
+
+```{r}
+library(mvtnorm, pos=23)
+```
+
+
+```{r}
+library(survival, pos=23)
+```
+
+
+```{r}
+library(MASS, pos=23)
+```
+
+
+```{r}
+library(TH.data, pos=23)
+```
+
+
+```{r}
+library(multcomp, pos=23)
+```
+
+
+```{r}
+AnovaModel.1 <- aov(price ~ brand, data=oj)
+summary(AnovaModel.1)
+with(oj, numSummary(price, groups=brand, statistics=c("mean", "sd")))
+```
+
+```{r}
+AnovaModel.2 <- aov(price ~ brand, data=oj)
+summary(AnovaModel.2)
+with(oj, numSummary(price, groups=brand, statistics=c("mean", "sd")))
+local({
+  .Pairs <- glht(AnovaModel.2, linfct = mcp(brand = "Tukey"))
+  print(summary(.Pairs)) # pairwise tests
+  print(confint(.Pairs)) # confidence intervals
+  print(cld(.Pairs)) # compact letter display
+  old.oma <- par(oma=c(0,5,0,0))
+  plot(confint(.Pairs))
+  par(old.oma)
+})
+```
+
+```{r}
+RegModel.3 <- lm(logmove~AGE60+INCOME+price, data=oj)
+summary(RegModel.3)
+```
+
+```{r}
+LinearModel.4 <- lm(logmove ~ AGE60 + INCOME + price + brand, 
+  data=oj)
+summary(LinearModel.4)
+```
+
+```{r}
+LinearModel.5 <- lm(logmove ~ AGE60 + INCOME + price + brand + 
+  price*brand, data=oj)
+summary(LinearModel.5)
+```
+
+```{r}
+RegModel.6 <- lm(logmove~AGE60+INCOME+price, data=oj)
+summary(RegModel.6)
+```
+
+```{r}
+library(zoo, pos=28)
+```
+
+
+```{r}
+library(lmtest, pos=28)
+```
+
+
+```{r}
+resettest(logmove ~ AGE60 + INCOME + price, power=2:3, 
+  type="regressor", data=oj)
+```
+
+```{r}
+vif(RegModel.6)
+```
+
+
+```{r}
+round(cov2cor(vcov(RegModel.6)), 3) 
+  # Correlations of parameter estimates
+```
+
+
+```{r}
+bptest(logmove ~ AGE60 + INCOME + price, varformula = ~ 
+  fitted.values(RegModel.6), studentize=FALSE, data=oj)
+```
+
+```{r}
+dwtest(logmove ~ AGE60 + INCOME + price, alternative="greater", 
+  data=oj)
+```
+
+```{r}
+outlierTest(RegModel.6)
+```
+
+

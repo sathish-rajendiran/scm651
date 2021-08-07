@@ -1,0 +1,156 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+# install and import neuralnet library
+
+install.packages(pkgs=c("neuralnet"),repos = "http://cran.us.r-project.org")
+library(neuralnet) 
+
+str(UniversalBank) #view the structure of the dataset
+
+# trainingdata <- UniversalBank[1:4000,]
+# testingdata <- UniversalBank[4001:5000,]
+
+colnames(UniversalBank) # view the column name
+
+# Dependent variable | Income 
+
+#Independent variables | CCAvg Family Education CreditCard  SecuritiesAccount Online CDAccount  Age Mortgage Experience
+
+loanapplied <- neuralnet(PersonalLoan~CDAccount+Education+Family+Income,UniversalBank,hidden = 3,lifesign = "minimal",linear.output = FALSE,threshold = 0.1)
+
+loanapplied$result.matrix
+
+plot(loanapplied,rep = "best")
+
+plot(PersonalLoan~CDAccount+Education+Family+Income,UniversalBank)
+
+
+```
+
+
+
+
+```{r}
+temptest <- subset(testingdata,select = c("PersonalLoan","Income"))
+head(temptest)
+
+loanapplied.results <- compute(loanapplied,temptest)
+
+results <- data.frame(actual=testingdata$default10yr,prediction=creditnet.results)
+
+results[1:20,]
+```
+
+
+# Load the Universal Bank csv file into a dataframe
+
+```{r}
+options(scipen=999) 
+# 1) Read the data – using the gdata package we have previously used.
+
+    filepath <- "/Users/sathishrajendiran/Documents/UniversalBank.csv"
+    
+    # function readFiles
+    readFiles <- function(fpath)
+      {
+      dftemp <- data.frame(read.csv(fpath),stringsAsFactors=FALSE)
+      return(dftemp)
+      }
+    
+    UniversalBank <- readFiles(filepath)
+    UniversalBank[1:10,]
+    
+    summary(UniversalBank)
+    
+    str(UniversalBank)
+```
+
+# Install Rcmdr utility
+
+
+```{r}
+install.packages("Rcmdr")
+library(Rcmdr)
+```
+
+
+
+
+```{r}
+install.packages("RGtk2")
+
+
+library(RGtk2)
+
+install.packages("rattle")
+library(rattle)
+```
+
+
+```{r}
+system('brew install gtk+')
+
+local({
+  if (Sys.info()[['sysname']] != 'Darwin') return()
+
+  .Platform$pkgType = 'mac.binary.el-capitan'
+  unlockBinding('.Platform', baseenv())
+  assign('.Platform', .Platform, 'package:base')
+  lockBinding('.Platform', baseenv())
+
+  options(
+    pkgType = 'both', install.packages.compile.from.source = 'always',
+    repos = 'https://macos.rbind.org'
+  )
+})
+
+install.packages(c('RGtk2', 'cairoDevice', 'rattle'))
+
+```
+```{r}
+system('brew install gtk+')
+install.packages(
+  'RGtk2', type = 'binary',
+  repos = 'https://macos.rbind.io'
+```
+
+
+```{r}
+options(repos = c(
+  CRANextra = 'https://macos.rbind.io',
+  CRAN = 'https://cran.rstudio.com'
+))
+
+install.packages(c('cairoDevice', 'RGtk2'))
+
+library(cairoDevice)
+library(RGtk2)
+install.packages("rattle")
+```
+
+
+```{r}
+library(rattle)
+rattle()
+
+```
+
+
+```{r}
+install.packages("ggplot2")
+install.packages("magrittr")version
+install.packages("RGtk2")
+install.packages("stringi")
+install.packages("stringr")
+
+install.packages("tidyr")
+
+install.packages("rattle", repos="https://rattle.togaware.com/src/contrib/rattle_5.3.7.zip", type="source")
+library(rattle)
+rattle()
+
+```
+

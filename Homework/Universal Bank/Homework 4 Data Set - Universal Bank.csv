@@ -1,0 +1,29 @@
+Logit,,,,,,Logit Predictions,,,
+Coefficients:,,,,,,,,,
+Estimate,Coefficients,Std.Error,z value,Pr(>|z|),,Variable,Coefficient,Input Value,Value ( Coeffient * Input Value)
+(Intercept),-4.133634,0.554092,-7.46,<0.0000000000000864,,(Intercept),-9.636097,1,-9.636097
+Age,0.010202,0.00567,1.799,0.072,,Age,0.010542,45,0.47439
+Income,-0.001253,0.003938,-0.318,0.7505,,Income,0.043404,90,3.90636
+CCAvg,0.068496,0.032935,2.08,0.0376,,CCAvg,0.073641,2.5,0.1841025
+Family,-1.467731,0.21175,-6.931,<0.0000000000041661,,Family,0.85009,5,4.25045
+Income:Family,0.020178,0.001853,10.892,<0.0000000000000002,,,,,
+,,,,,,,,Sum(U),-0.8207945
+,,,,,,,,EXP(U),0.440081871
+,,,,,,,,1+EXP(U),1.440081871
+,,,,,,,,Probability (EXP(U)/(1+EXP(U)),31%
+Age,Customer Age,,,,,,,,
+Income,Annual income in Thousands,,,,,,,,
+CCAvg,Monthly Credit Average Score,,,,,,,,
+Family,Family Size,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Coefficients:,,,,,,,,,
+,Estimate,Std.,Error,z,value,Pr(>|z|),,,
+(Intercept),-4.133634,0.554092,-7.46,8.64E-14,***,,,,
+Age,0.010202,0.00567,1.799,0.072,.,,,,
+Income,-0.001253,0.003938,-0.318,0.7505,,,,,
+CCAvg,0.068496,0.032935,2.08,0.0376,*,,,,
+Family,-1.467731,0.21175,-6.931,4.1661E-12,***,,,,
+Income:Family,0.020178,0.001853,10.892,<,2E-16,***,,,
+---,,,,,,,,,
